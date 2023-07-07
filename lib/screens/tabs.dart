@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_final_fields, unused_field, no_leading_underscores_for_local_identifiers
+// ignore_for_file: prefer_final_fields, unused_field, no_leading_underscores_for_local_identifiers, prefer_const_constructors
 
 import 'package:blogs_app/screens/feedback_page.dart';
 import 'package:blogs_app/screens/home_page.dart';
@@ -25,7 +25,7 @@ class _TabsScreenState extends State<TabsScreen> {
   @override
   Widget build(BuildContext context) {
     Widget _activePage = const HomePage();
-    var _activePageTitle = "Blogs App";
+    var _activePageTitle = "Blogs";
 
     if (_selectedPageIndex == 1) {
       _activePage = const ProfileScreen();
@@ -42,19 +42,28 @@ class _TabsScreenState extends State<TabsScreen> {
       ),
       body: _activePage,
       bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.blueAccent,
-        items: const [
+        backgroundColor: Theme.of(context).colorScheme.secondary,
+        items: [
           Icon(
             Icons.home,
             size: 30,
+            color: _selectedPageIndex == 0
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.onBackground,
           ),
           Icon(
             Icons.account_circle,
             size: 30,
+            color: _selectedPageIndex == 1
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.onBackground,
           ),
           Icon(
             Icons.feedback,
             size: 30,
+            color: _selectedPageIndex == 2
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.onBackground,
           )
         ],
         onTap: (index) {
