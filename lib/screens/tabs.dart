@@ -42,6 +42,7 @@ class _TabsScreenState extends State<TabsScreen> {
       ),
       body: _activePage,
       bottomNavigationBar: CurvedNavigationBar(
+        color: Theme.of(context).colorScheme.onPrimary,
         backgroundColor: Theme.of(context).colorScheme.secondary,
         items: [
           Icon(
