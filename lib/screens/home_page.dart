@@ -3,8 +3,10 @@
 import 'dart:convert';
 
 import 'package:blogs_app/models/blog.dart';
+import 'package:blogs_app/screens/blog_details.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:transparent_image/transparent_image.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -58,49 +60,60 @@ class _HomePageState extends State<HomePage> {
       itemBuilder: (ctx, index) => Padding(
         padding: EdgeInsets.only(top: 12, bottom: 12),
         child: GestureDetector(
-          onTap: () {},
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (ctx) => BlogDetailsScreen(
+                  id: _loadedBlogs[index].id,
+                  title: _loadedBlogs[index].title,
+                  description: _loadedBlogs[index].description,
+                  imageURL: _loadedBlogs[index].imageURL,
+                ),
+              ),
+            );
+          },
           child: Stack(
             children: [
-              Container(
-                height: 250,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(24),
-                  image: DecorationImage(
-                    image: NetworkImage(
-                      _loadedBlogs[index].imageURL,
-                      scale: 0.5,
-                    ),
-                    fit: BoxFit.contain,
+              Hero(
+                tag: ValueKey(_loadedBlogs[index].id),
+                child: FadeInImage(
+                  placeholder: MemoryImage(kTransparentImage),
+                  image: NetworkImage(
+                    _loadedBlogs[index].imageURL,
                   ),
+                  fit: BoxFit.cover,
+                  height: 200,
+                  width: double.infinity,
                 ),
               ),
               Positioned(
-                bottom: 10.0,
-                left: 10,
-                child: Text(
-                  _loadedBlogs[index].title,
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                bottom: 0.0,
+                left: 0.0,
+                right: 0.0,
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 6,
+                    horizontal: 44,
                   ),
-                  textAlign: TextAlign.center,
+                  color: Colors.black54,
+                  child: Column(
+                    children: [
+                      Text(
+                        _loadedBlogs[index].title,
+                        maxLines: 2,
+                        textAlign: TextAlign.center,
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              Positioned(
-                top: 20,
-                right: 7,
-                child: Text(
-                  _loadedBlogs[index].date,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 12,
-                  ),
-                  textAlign: TextAlign.left,
-                ),
-              )
             ],
           ),
         ),
