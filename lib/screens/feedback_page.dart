@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_is_empty, unused_field, prefer_final_fields, unused_element, avoid_print
 
+import 'package:blogs_app/screens/form_submitted.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +21,8 @@ class _FeedbackSreenState extends State<FeedbackSreen> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       _formKey.currentState!.reset();
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (ctx) => FormSubmittedScreen()));
       print("SUBJECT:$_subject");
       print("BODY:$_body");
       print("EMAIL:$_email");

@@ -18,6 +18,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final List<Blog> _loadedBlogs = [];
   var _isLoading = true;
+  String? _error;
 
   @override
   void initState() {
@@ -31,7 +32,6 @@ class _HomePageState extends State<HomePage> {
       final response = await http.get(url);
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
-        print(data);
         for (final blog in data) {
           _loadedBlogs.add(Blog(
             id: blog['id'].toString(),
@@ -41,7 +41,6 @@ class _HomePageState extends State<HomePage> {
             description: blog['description'],
           ));
         }
-        //print(fetchedBlogs);
       } else {
         print('Failed to fetch blogs. Error: ${response.statusCode}');
       }
@@ -50,6 +49,9 @@ class _HomePageState extends State<HomePage> {
       });
     } catch (e) {
       print('Error occurred during the HTTP request: $e');
+      setState(() {
+        _error = "Something went wrong pls try again later";
+      });
     }
   }
 
@@ -122,6 +124,10 @@ class _HomePageState extends State<HomePage> {
 
     if (_isLoading) {
       content = Center(child: CircularProgressIndicator());
+    }
+
+    if (_error != null) {
+      content = Center(child: Text(_error!));
     }
     return Scaffold(body: content);
   }
